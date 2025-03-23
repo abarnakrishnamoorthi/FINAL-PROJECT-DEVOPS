@@ -1,0 +1,100 @@
+/* Global Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6a0dad, #8b5cf6);
+  margin: 0;
+}
+
+/* Container for Centering */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Form Box */
+.form-container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 380px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-container:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Title Styling */
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Input Fields */
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #ddd;
+}
+
+input:focus, textarea:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Textarea Specific Styles */
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* Submit Button */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  background: linear-gradient(135deg, #8a2be2, #4b0082);
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #9b30ff, #6a0dad);
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}

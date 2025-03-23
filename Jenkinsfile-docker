@@ -1,0 +1,89 @@
+pipeline {
+
+    agent any
+
+    tools {
+        jdk 'jdk17'
+        nodejs 'node20'
+    }
+
+    stages {
+
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    echo "Cleaning workspace..."
+                    deleteDir()
+                }
+            }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                script {
+                    git branch: 'main',
+                        credentialsId: 'github_secret',
+                        url: 'https://github.com/Immanuvel1207/Full-stack-demo.git'
+                }
+            }
+        }
+
+        stage('Install Dependencies & Build') {
+            steps {
+                script {
+                    sh '''
+                    cd react-app  # Change to the correct React.js project directory
+
+                    if [ -f package.json ]; then
+                        echo "package.json found. Installing dependencies..."
+                        npm install
+                        npm run build  # Build React for production
+                    else
+                        echo "ERROR: package.json is missing in react-app. Skipping build."
+                        exit 1
+                    fi
+                    '''
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+                        def imageName = "immanuvel12/react-app"
+                        def tag = "latest"
+
+                        sh """
+                        cd react-app  # Ensure the correct build context
+                        docker build -t ${imageName} .
+                        docker tag ${imageName} ${imageName}:${tag}
+                        docker push ${imageName}:${tag}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    def containerName = "react_container"
+                    def imageName = "immanuvel12/react-app:latest"
+
+                    // Stop and remove the existing container if running
+                    sh """
+                    docker stop ${containerName} || true
+                    docker rm ${containerName} || true
+                    """
+
+                    // Run the new container (React apps usually run with nginx or serve)
+                    sh """
+                    docker run -d --name ${containerName} -p 3000:3000 ${imageName}
+                    """
+                }
+            }
+        }
+
+    }
+}
